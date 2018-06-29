@@ -1,0 +1,171 @@
+.gridContainer{
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+.lp{
+    position: fixed;
+    top:0rem;
+    left:0rem;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,1);
+    z-index: 99;
+    overflow: hidden;
+}
+._qp{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top:0rem;
+    left: 0rem;
+    z-index: 2;
+    overflow: hidden;
+}
+._loadingZ{-webkit-animation: _loading 2s linear infinite;animation: _loading 2s linear infinite}
+@-webkit-keyframes _loading
+{
+    0%   {-webkit-transform:rotate(0deg);}
+    100% {-webkit-transform:rotate(360deg);}
+}
+@keyframes _loading
+{
+    0%   {transform:rotate(0deg);}
+    100% {transform:rotate(360deg);}
+}
+.page-home{
+    width: 100%;
+    height:14.48rem;
+    position: absolute;
+    top:0rem;
+    left:0rem;
+    background-image: url('../images/home/home.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    transition:all 1s;
+}
+.bg-img{
+    position: absolute;
+    top:0rem;
+    left:0rem;
+    width: 7.5rem;
+    height: 14.5rem;
+}
+#switch{
+    position: fixed;
+    top:0.36rem;
+    right: 0.43rem;
+    width:0.75rem;
+    height: 0.75rem;
+    z-index: 5;
+}
+.text-game-times{
+    position: absolute;
+    top:4.4rem;
+    left:0rem;
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    font-size: 0.36rem;
+}
+.gameTextTimes{
+    color:#fddf0d;
+    font-size: 0.64rem;
+    text-decoration: underline;
+}
+.open-game{
+    position: absolute;
+    top:8.68rem;
+    left:1rem;
+    width:5.47rem;
+    height: 1.97rem;
+    background-image: url(../images/home/open-game.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    z-index: 2;
+}
+.page-description{
+    width: 7.5rem;
+    height: 100%;
+    position: absolute;
+    top:0rem;
+    left: 0rem;
+    overflow: hidden;
+}
+.page-description.in{
+    overflow: scroll !important;
+}
+.desc{
+    position: absolute;
+    top:1.9rem;
+    left:0rem;
+    text-align: center;
+    width: 100%;
+    color: #fff;
+    font-size: 0.36rem;
+    line-height: 0.54rem;
+}
+.qcode{
+    margin:0 auto;
+    margin-top:0.2rem;
+    width:1.94rem;
+    height: 1.94rem;
+}
+.bg-img1{
+    height: 14.48rem;
+}
+
+.pop-no-opportunity,
+.pop-active-end{
+  position: fixed;
+  z-index: 2;
+  top: 0rem;
+  left: 0rem;
+  display: none;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .4);
+}
+.pop-no-opportunity .inner,
+.pop-active-end .inner{
+    position: absolute;
+    top: 3.55rem;
+    left: 1.2rem;
+    width: 5.1rem;
+    background-color:#30862e;
+    border:7px solid #fdbf30;
+    z-index: 2;
+}
+.pop-no-opportunity .inner:after,
+.pop-active-end .inner:after{
+  content: "";
+  position: absolute;
+  top:-1.11rem;
+  left:1.44rem;
+  width: 2.22rem;
+  height: 2.22rem;
+  background-image: url('/static/haier/haier-world-cup/base/images/pi.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+.opportunity-desc,
+.end-desc{
+    margin: 0 auto;
+    margin-top: 1.3rem;
+    margin-bottom: 0.3rem;
+    width: 4.3rem;
+    text-align: center;
+    color: #fff;
+    font-size: 0.36rem;
+    font-weight: bold;
+}
+.page-desc-logo{
+    position: absolute;
+    top:0.44rem;
+    left:0.5rem;
+    width:1.97rem;
+    height: 0.55rem;
+}

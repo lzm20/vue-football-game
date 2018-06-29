@@ -1,0 +1,396 @@
+.gridContainer{
+    background-color: #588e26;
+}
+.hide-element{
+  height: 0rem;
+  overflow: hidden;
+  visibility: hidden;
+}
+.bg-img{
+    position: absolute;
+    top:0rem;
+    left: 0rem;
+    width: 6.4rem;
+    height: 10.4rem;
+}
+#switch{
+    position: fixed;
+    z-index: 9;
+    top: .2rem;
+    right: .2rem;
+    width: .5rem;
+    height: .5rem;
+}
+.page-con{
+    position: absolute;
+    top: 0rem;
+    left: 0rem;
+    overflow: hidden;
+    width: 7.5rem;
+    height: 14.48rem;
+}
+.page-lottery{
+  position: absolute;
+  top: 0rem;
+  left: 0rem;
+  overflow: hidden;
+  width: 7.5rem;
+  height: 14.48rem;
+  background-color: #fff;
+  background-image: url('../images/lottery/gamebg.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100%;
+}
+
+#goalkeeper{
+  position: absolute;
+  top: 3rem;
+  left: 1.25rem;
+  width: 4.98rem;
+  height: 2.56rem;
+  background-image: url('../images/lottery/g-center.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100%;
+}
+#football{
+  position: absolute;
+  top: 7.49rem;
+  left: 2.87rem;
+  width: 1.76rem;
+  height: 1.76rem;
+  background-image: url('../images/lottery/ball.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100%;
+  transition:all 0.3s;
+  z-index: 1;
+}
+.ball_projection{
+  position:absolute;
+  width: 1.39rem;
+  height: 0.36rem;
+  top:9rem;
+  left:3.055rem;
+  background-image: url('../images/lottery/ball_yin.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100%;
+}
+#football.ac:before{
+    position: absolute;
+    z-index: 2;
+    top: 0rem;
+    left: 0rem;
+    width: 1rem;
+    height: 1rem;
+    content: '';
+    border-radius: 50%;
+    background-color: #cdcdcd;
+}
+#football.ac:after{
+    position: absolute;
+    bottom: -.25rem;
+    left: .1rem;
+    width: .8rem;
+    height: .4rem;
+    content: '';
+    border-radius: .8rem / .4rem;
+    background-color: #dedede;
+}
+.information{
+  position: absolute;
+  top:9.45rem;
+  left:0rem;
+  width: 100%;
+  text-align: center;
+  color: #fff;
+  font-size:0.38rem;
+}
+.pop-suc{
+    position: fixed;
+    z-index: 2;
+    top: 0rem;
+    left: 0rem;
+    display: none;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .4);
+}
+.goals_number{
+    position: absolute;
+    width: 0.5rem;
+    text-align: center;
+    font-size: 0.3rem;
+    height: 0.3rem;
+    top: 2.43rem;
+    left: 2.5rem;
+    color: #1a1a1d;
+    line-height: 0.3rem;
+    font-weight: 500;
+}
+.pop-nowin{
+    position: fixed;
+    z-index: 2;
+    top: 0rem;
+    left: 0rem;
+    display: none;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .4);
+}
+.pop-fail{
+    position: fixed;
+    z-index: 2;
+    top: 0rem;
+    left: 0rem;
+    display: none;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .4);
+}
+.pop-hasalready{
+    position: fixed;
+    z-index: 2;
+    top: 0rem;
+    left: 0rem;
+    display: none;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .4);
+}
+.ball_count{
+    position: absolute;
+    width: 0.2rem;
+    height: 0.3rem;
+    text-align: center;
+    top: 1.65rem;
+    left: 2.25rem;
+    color: #1a1a1d;
+    font-size: 0.3rem;
+    line-height: 0.3rem;
+}
+.pop-suc .inner{
+    position: absolute;
+    top: 3.55rem;
+    left: 1.2rem;
+    width: 5.1rem;
+    background-color:#30862e;
+    border:7px solid #fdbf30;
+    z-index: 2;
+}
+.pop-fail .inner{
+    position: absolute;
+    top: 3.55rem;
+    left: 1.2rem;
+    width: 5.1rem;
+    height: 4.25rem;
+    background-color:#30862e;
+    border:7px solid #fdbf30;
+    z-index: 2;
+}
+.pop-hasalready .inner{
+    position: absolute;
+    top: 3.55rem;
+    left: 1.2rem;
+    width: 5.1rem;
+    height: 4.25rem;
+    background-color:#30862e;
+    border:7px solid #fdbf30;
+    z-index: 2;
+}
+.pop-hasalready .inner:after{
+  content: "";
+  position: absolute;
+  top:-1.11rem;
+  left:1.44rem;
+  width: 2.22rem;
+  height: 2.22rem;
+  background-image: url('../images/pi.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+.pop-fail .inner:after{
+  content: "";
+  position: absolute;
+  top:-1.11rem;
+  left:1.44rem;
+  width: 2.22rem;
+  height: 2.22rem;
+  background-image: url('../images/pi.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+.inner-wai-img{
+  position: absolute;
+  top:1rem;
+  width: 7.5rem;
+  height: 6.46rem;
+  background-image: url('../images/lottery/pop-bg.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+.pop-suc .inner#prize1:after{
+  content: "";
+  position: absolute;
+  top:-1.5rem;
+  left:1.12rem;
+  width: 2.85rem;
+  height: 2.55rem;
+  background-image: url('../images/lottery/prize-cup.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+.pop-suc .inner#prize2:after{
+  content: "";
+  position: absolute;
+  top:-1.5rem;
+  left:1.12rem;
+  width: 2.85rem;
+  height: 2.55rem;
+  background-image: url('../images/lottery/prize-line.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+.pop-suc .inner#prize4:after{
+  content: "";
+  position: absolute;
+  top:-1.5rem;
+  left:1.12rem;
+  width: 2.85rem;
+  height: 2.55rem;
+  background-image: url('../images/lottery/prize-panel.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+.pop-suc .inner#prize3:after{
+  content: "";
+  position: absolute;
+  top:-1.5rem;
+  left:1.12rem;
+  width: 2.85rem;
+  height: 2.55rem;
+  background-image: url('../images/lottery/prize-shelf.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+.prize-intruction{
+  margin:0 auto;
+  margin-top:1.3rem;
+  width: 4.3rem;
+  text-align: center;
+  color: #fff;
+  font-size: 0.36rem;
+}
+.fail-desc{
+  margin:0 auto;
+  margin-top:1.3rem;
+  width: 4.3rem;
+  text-align: center;
+  color: #fff;
+  font-size: 0.36rem;
+}
+.nowin-desc{
+  margin:0 auto;
+  margin-top:1.3rem;
+  width: 4.3rem;
+  text-align: center;
+  color: #fff;
+  font-size: 0.36rem;
+}
+.pop-nowin .inner{
+    position: absolute;
+    top: 3.55rem;
+    left: 1.2rem;
+    width: 5.1rem;
+    height: 4rem;
+    background-color:#30862e;
+    border:7px solid #fdbf30;
+}
+.pop-nowin .inner:after{
+  content: "";
+  position: absolute;
+  top:-1.11rem;
+  left:1.44rem;
+  width: 2.22rem;
+  height: 2.22rem;
+  background-image: url('../images/pi.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+.go-chou{
+   position: absolute;
+   top:4.7rem;
+   left:50%;
+   transform: translate3d(-50%,0rem,0rem);
+   width: 1.8rem;
+   height: 0.6rem;
+}
+.hand{
+  position: absolute;
+  top:8.3rem;
+  right:2.11rem;
+  width: 0.73rem;
+  height: 0.75rem;
+  background-image: url('../images/lottery/hand.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100%;
+  animation:hands 1.5s linear infinite 0s both;
+}
+@keyframes hands{
+    0%{-webkit-transform:translate3d(0,0,0);}
+    50%{-webkit-transform: translate3d(1.2rem,-2.2rem,0);}
+    99%{-webkit-transform: translate3d(1.2rem,-2.2rem,0);}
+    100%{-webkit-transform:translate3d(0,0,0);}
+}
+.game-tips{
+    position: fixed;
+    z-index: 9;
+    top: 0rem;
+    left: 0rem;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .66);
+    background-image: url('../images/lottery/prom.png');
+    background-position: center;
+    background-size:contain;
+    background-repeat: no-repeat;
+}
+.go-form{
+  margin:0 auto;
+  margin-top: 0.3rem;
+  margin-bottom: 0.4rem;
+  width: 3.11rem;
+  height: 0.88rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.36rem;
+  color: #30862e;
+  background-color: #fdbf30;
+  font-weight: bold;
+}
+.restart{
+  margin:0 auto;
+  margin-top: 0.3rem;
+  margin-bottom: 0.4rem;
+  width: 3.11rem;
+  height: 0.88rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.36rem;
+  color: #30862e;
+  background-color: #fdbf30;
+  font-weight: bold;
+}

@@ -1,0 +1,206 @@
+.gridContainer{
+    width: 100%;
+    height: 100%;
+}
+._qp{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+.page-game{
+    width: 100%;
+    height:100%;
+    position: absolute;
+    top:0rem;
+    left:0rem;
+}
+
+.text-time{
+    position: absolute;
+    top:0.6rem;
+    left:0.8rem;
+    width: 3rem;
+    color: #fff;
+    font-size: 0.32rem;
+}
+canvas{
+    width: 100%;
+    height: 100%;
+}
+.pop-lock{
+    position: fixed;
+    top:0rem;
+    left:0rem;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.62);
+    z-index: 9;
+    /*display: none;*/
+}
+.start{
+    position: absolute;
+    top:70%;
+    left:2.5rem;
+    width: 2.5rem;
+    height: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 0.3rem;
+    border-radius: 0.08rem;
+    border:1px solid #fff;
+}
+
+.pop-successful,
+.pop-fail{
+    position: fixed;
+    z-index: 2;
+    top: 0rem;
+    left: 0rem;
+    display: none;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .4);
+}
+.pop-successful .inner,
+.pop-fail .inner{
+    position: absolute;
+    top: 3.55rem;
+    left: 1.2rem;
+    width: 5.1rem;
+    background-color:#30862e;
+    border:7px solid #fdbf30;
+    z-index: 2;
+}
+.inner-wai-img{
+  position: absolute;
+  top:1rem;
+  width: 7.5rem;
+  height: 6.46rem;
+  background-image: url('../images/pop-bg.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+.pop-successful .inner:after,
+.pop-fail .inner:after{
+  content: "";
+  position: absolute;
+  top:-1.11rem;
+  left:1.44rem;
+  width: 2.22rem;
+  height: 2.22rem;
+  background-image: url('../images/pi.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+.go-lottery{
+  margin:0 auto;
+  margin-top: 0.3rem;
+  margin-bottom: 0.4rem;
+  width: 3.11rem;
+  height: 0.88rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.36rem;
+  color: #30862e;
+  background-color: #fdbf30;
+  font-weight: bold;
+}
+.again{
+  margin:0 auto;
+  margin-top: 0.3rem;
+  width: 3.11rem;
+  height: 0.88rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.36rem;
+  color: #30862e;
+  background-color: #fdbf30;
+  font-weight: bold;
+}
+
+.suc-desc{
+    margin: 0 auto;
+    margin-top: 1.3rem;
+    width: 4.3rem;
+    text-align: center;
+    color: #fff;
+    font-size: 0.36rem;
+}
+.fail-desc{
+    margin: 0 auto;
+    margin-top: 1.3rem;
+    width: 4.3rem;
+    text-align: center;
+    color: #fff;
+    font-size: 0.36rem;
+    font-weight: bold;
+}
+.s-game-times{
+    margin-top: 0.1rem;
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    font-size: 0.3rem;
+    margin-bottom: 0.3rem;
+}
+.s-game-times span{
+    color: #fdbf30;
+}
+.lock-text{
+  position: absolute;
+  top:40%;
+  left:0rem;
+  width: 100%;
+  text-align: center;
+  color:#fff;
+  font-size: 0.36rem;
+  font-weight: bold;
+}
+.pop-no-opportunity{
+  position: fixed;
+  z-index: 2;
+  top: 0rem;
+  left: 0rem;
+  display: none;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .4);
+}
+.pop-no-opportunity .inner{
+    position: absolute;
+    top: 3.55rem;
+    left: 1.2rem;
+    width: 5.1rem;
+    background-color:#30862e;
+    border:7px solid #fdbf30;
+    z-index: 2;
+}
+.pop-no-opportunity .inner:after{
+  content: "";
+  position: absolute;
+  top:-1.11rem;
+  left:1.44rem;
+  width: 2.22rem;
+  height: 2.22rem;
+  background-image: url('../images/pi.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+.opportunity-desc{
+    margin: 0 auto;
+    margin-top: 1.3rem;
+    margin-bottom: 0.3rem;
+    width: 4.3rem;
+    text-align: center;
+    color: #fff;
+    font-size: 0.36rem;
+    font-weight: bold;
+}

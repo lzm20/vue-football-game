@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1, shrink-to-fit=no">
+    <title>haier-world-cup1</title>
+    <script>
+        document.title = '绿茵传奇';
+        !(function (win, doc) {
+          var DesignSize = 750;
+          doc.write('<style>body{max-width: ' + DesignSize + 'px;}</style>');
+          function ss() {
+            var size = (window.innerWidth / DesignSize) * 100;
+            doc.documentElement.style.fontSize = (size < 100 ? size : 100) + 'px';
+          }
+          var evt = 'resize';
+          var timer = null;
+          win.addEventListener(evt, function () {
+            clearTimeout(timer);
+            timer = setTimeout(ss, 300);
+          }, false);
+          win.addEventListener("pageshow", function (e) {
+            if (e.persisted) {
+              clearTimeout(timer);
+              timer = setTimeout(ss, 300);
+            }
+          }, false);
+          ss();
+        }(window, document));
+    </script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>
