@@ -14,7 +14,7 @@ const AppWeixinShareUtil = {
     return toolUtil.setSessionStorage(this.SESSION_STORAGE, cfg)
   },
   */
-  setupWeixinShare (wxShareConfigInfo, weixinShare) {
+  setupWeixinShare (wxShareConfigInfo, weixinShare, callback) {
     wx.config({
       debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
       appId: wxShareConfigInfo.appid, // 必填，公众号的唯一标识
@@ -49,9 +49,10 @@ const AppWeixinShareUtil = {
         */
       ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
     })
-    this.setupWeixinShareOnly(weixinShare)
+    this.setupWeixinShareOnly(weixinShare, callback)
   },
-  setupWeixinShareOnly (weixinShare) {
+  setupWeixinShareOnly (weixinShare, callback) {
+    // callback()
     wx.ready(() => {
       // 分享给朋友
       wx.onMenuShareAppMessage({
@@ -62,6 +63,9 @@ const AppWeixinShareUtil = {
         success: function () {
           // 用户确认分享后执行的回调函数
           // console.log('分享给朋友' + weixinShare.link)
+          if (callback) {
+            callback()
+          }
         },
         cancel: function () {
           // 用户取消分享后执行的回调函数

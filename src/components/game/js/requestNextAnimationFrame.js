@@ -1,67 +1,65 @@
-window.requestNextAnimationFrame =
-  (function () {
-    var originalWebkitRequestAnimationFrame = null
-    var wrapper = null
-    var callback = null
-    var geckoVersion = 0
-    var userAgent = navigator.userAgent
-    var index = 0
-    var self = this
-    // Workaround for Chrome 10 bug where Chrome
-    // does not pass the time to the animation function
-    if (window.webkitRequestAnimationFrame) {
-      // Define the wrapper
-      wrapper = function (time) {
-        if (time === undefined) {
-          time = +new Date()
-        }
-        self.callback(time)
+export let requestNextAnimationFrame = (function () {
+  let originalWebkitRequestAnimationFrame = null
+  let wrapper = null
+  let callback = null
+  let geckoVersion = 0
+  let userAgent = navigator.userAgent
+  let index = 0
+  let self = this
+  // Workaround for Chrome 10 bug where Chrome
+  // does not pass the time to the animation function
+  if (window.webkitRequestAnimationFrame) {
+    // Define the wrapper
+    wrapper = function (time) {
+      if (time === undefined) {
+        time = +new Date()
       }
-      // Make the switch
-      originalWebkitRequestAnimationFrame = window.webkitRequestAnimationFrame
-      window.webkitRequestAnimationFrame = function (callback, element) {
-        self.callback = callback
-        // Browser calls the wrapper and wrapper calls the callback
-        originalWebkitRequestAnimationFrame(wrapper, element)
-      }
+      self.callback(time)
     }
-    // Workaround for Gecko 2.0, which has a bug in
-    // mozRequestAnimationFrame() that restricts animations
-    // to 30-40 fps.
-    if (window.mozRequestAnimationFrame) {
-      // Check the Gecko version. Gecko is used by browsers
-      // other than Firefox. Gecko 2.0 corresponds to
-      // Firefox 4.0.
-      index = userAgent.indexOf('rv:')
-      if (userAgent.indexOf('Gecko') !== -1) {
-        geckoVersion = userAgent.substr(index + 3, 3)
-        if (geckoVersion === '2.0') {
-          // Forces the return statement to fall through
-          // to the setTimeout() function.
-          window.mozRequestAnimationFrame = undefined
-        }
-      }
+    // Make the switch
+    originalWebkitRequestAnimationFrame = window.webkitRequestAnimationFrame
+    window.webkitRequestAnimationFrame = function (callback, element) {
+      self.callback = callback
+      // Browser calls the wrapper and wrapper calls the callback
+      originalWebkitRequestAnimationFrame(wrapper, element)
     }
-    return window.requestAnimationFrame ||
-      window.webkitRequestAnimationFrame ||
-      window.mozRequestAnimationFrame ||
-      window.oRequestAnimationFrame ||
-      window.msRequestAnimationFrame ||
-
-      function (callback, element) {
-        var start
-        var finish
-        window.setTimeout(function () {
-          start = +new Date()
-          callback(start)
-          finish = +new Date()
-          self.timeout = 1000 / 60 - (finish - start)
-        }, self.timeout)
-      }
   }
-  )()
+  // Workaround for Gecko 2.0, which has a bug in
+  // mozRequestAnimationFrame() that restricts animations
+  // to 30-40 fps.
+  if (window.mozRequestAnimationFrame) {
+    // Check the Gecko version. Gecko is used by browsers
+    // other than Firefox. Gecko 2.0 corresponds to
+    // Firefox 4.0.
+    index = userAgent.indexOf('rv:')
+    if (userAgent.indexOf('Gecko') !== -1) {
+      geckoVersion = userAgent.substr(index + 3, 3)
+      if (geckoVersion === '2.0') {
+        // Forces the return statement to fall through
+        // to the setTimeout() function.
+        window.mozRequestAnimationFrame = undefined
+      }
+    }
+  }
+  return window.requestAnimationFrame ||
+    window.webkitRequestAnimationFrame ||
+    window.mozRequestAnimationFrame ||
+    window.oRequestAnimationFrame ||
+    window.msRequestAnimationFrame ||
 
-window.cancelNextRequestAnimationFrame = window.cancelRequestAnimationFrame ||
+    function (callback, element) {
+      var start
+      var finish
+      window.setTimeout(function () {
+        start = +new Date()
+        callback(start)
+        finish = +new Date()
+        self.timeout = 1000 / 60 - (finish - start)
+      }, self.timeout)
+    }
+})()
+
+export let cancelNextRequestAnimationFrame = window.cancelRequestAnimationFrame ||
   window.webkitCancelAnimationFrame ||
   window.webkitCancelRequestAnimationFrame ||
   window.mozCancelRequestAnimationFrame ||

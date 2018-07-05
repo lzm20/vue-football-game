@@ -54,6 +54,18 @@
   background-position: center;
   background-size: 100%;
 }
+#goalkeeper.bg1{
+  background-image: url('../images/lottery/g-center-top.png');
+}
+#goalkeeper.bg2{
+  background-image: url('../images/lottery/g-left.png');
+}
+#goalkeeper.bg3{
+  background-image: url('../images/lottery/g-right.png');
+}
+#goalkeeper.bg4{
+  background-image: url('../images/lottery/g-center.png');
+}
 #football{
   position: absolute;
   top: 7.49rem;
@@ -113,7 +125,6 @@
     z-index: 2;
     top: 0rem;
     left: 0rem;
-    display: none;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, .4);
@@ -135,7 +146,6 @@
     z-index: 2;
     top: 0rem;
     left: 0rem;
-    display: none;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, .4);
@@ -145,7 +155,6 @@
     z-index: 2;
     top: 0rem;
     left: 0rem;
-    display: none;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, .4);
@@ -155,7 +164,6 @@
     z-index: 2;
     top: 0rem;
     left: 0rem;
-    display: none;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, .4);

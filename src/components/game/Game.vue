@@ -12,26 +12,26 @@
                 </div>
                 <div class="start" @click="retuceGameTimes()">我知道了</div>
             </div>
-            <div class="pop-successful lockTouchmove">
+            <div class="pop-successful lockTouchmove" v-if="isSuccess">
                 <div class="inner">
                     <div class="suc-desc">
                         <div style="font-weight: bold;">恭喜您</div>
                         <div>您获得直面门将的机会！</div>
                     </div>
-                    <div class="go-lottery">起脚射门</div>
+                    <div class="go-lottery" @click='goLottery'>起脚射门</div>
                 </div>
                 <div class="inner-wai-img"></div>
             </div>
-            <div class="pop-fail lockTouchmove">
+            <div class="pop-fail lockTouchmove" v-if='isFail'>
                 <div class="inner">
                     <div class="fail-desc">
                         你坚持了<span></span>S<br>表现不错，继续努力！
                     </div>
-                    <div class="again">再次挑战</div>
-                    <div class="s-game-times">剩余挑战机会：<span>6</span></div>
+                    <div class="again" @click="again">再次挑战</div>
+                    <div class="s-game-times">剩余挑战机会：<span>{{gameTimes}}</span></div>
                 </div>
             </div>
-            <div class="pop-no-opportunity lockTouchmove">
+            <div class="pop-no-opportunity lockTouchmove" v-if='isNoPoop'>
                 <div class="inner">
                     <div class="opportunity-desc">
                        您的机会已经用完<br>
@@ -42,14 +42,20 @@
     </div>
 </template>
 <script>
-import {setUserLotteryCountDecrOne} from '../base/base'
+import {setUserLotteryCountDecrOne, getGameFrequency} from '../base/base'
 import AppWeixinShareUtil from '../share/share'
+import {requestNextAnimationFrame, cancelNextRequestAnimationFrame} from './js/requestNextAnimationFrame'
 // import game from './js/game'
 export default {
   name: 'game',
+  props: ['goLot'],
   data () {
     return {
+      gameTimes: 0,
       isShowLock: true,
+      isSuccess: false,
+      isFail: false,
+      isNoPoop: false,
       times: 0,
       timer: null,
       id: null,
@@ -65,7 +71,9 @@ export default {
       bulletTime: 0,
       isCanStart: true,
       touchstart: true,
-      defaultSize: window.innerWidth / 750
+      defaultSize: window.innerWidth / 750,
+      bgSprite: null,
+      randomLeft: [30, 70, 140, 210, 280, 350, 420, 490, 560, 630, 680]
     }
   },
   methods: {
@@ -162,7 +170,7 @@ export default {
         // 更新动画行为的方法 需要使用behaviors 成员
         update: function (context, time, planeObj) {
           for (let i = 0; i < thir.behaviors.length; i++) {
-            thir.behaviors[i].execute(thir, context, time, planeObj)
+            thir.behaviors[i].prototype.execute(thir, context, time, planeObj)
           }
         }
 
@@ -192,9 +200,7 @@ export default {
             // 获取当前绘制使用的图片信息
             let cell = that.cells[that.cellIndex]
             // 使用图像信息数组中的某个图片绘制到canvas中
-            that.img.onload = function () {
-              context.drawImage(that.img, cell.x, cell.y, cell.w, cell.h, sprite.left, sprite.top, cell.w, cell.h)
-            }
+            context.drawImage(that.img, cell.x, cell.y, cell.w, cell.h, sprite.left, sprite.top, cell.w, cell.h)
           }
         }
       }
@@ -217,7 +223,6 @@ export default {
           if (them.lastBgTime !== 0) {
             // 如果lastBgTime!=0 不是第一帧
             let frameTime = time - them.lastBgTime
-
             // 更新纵坐标 this.top    当前高度=当前的高度+每秒移动的速度/1000*每一帧的时间(毫秒)
             them.top = them.top + (them.moveY / 1000) * frameTime
             // 判断当前第一张背景图片是否已经到达canvas最下端不显示
@@ -232,22 +237,212 @@ export default {
         paint: function (context) {
           // 绘制第一张背景图
           // context.drawImage(图片对象,来源图x,来源图y,宽度,高度,画布x,画布,y,宽度,高度);
-          them.img.onload = function () {
-            context.drawImage(them.img, 0, 0, them.width, them.height, them.left, them.top, them.width, them.height)
-            // 绘制第二张背景图
-            context.drawImage(them.img, 0, 0, them.width, them.height, them.left, them.top - them.height, them.width, them.height)
+          context.drawImage(them.img, 0, 0, them.width, them.height, them.left, them.top, them.width, them.height)
+          // 绘制第二张背景图
+          context.drawImage(them.img, 0, 0, them.width, them.height, them.left, them.top - them.height, them.width, them.height)
+        }
+      }
+    },
+    EnemyFly () {
+      let lastEnemyFlyTime = 0
+      this.prototype = {
+        execute: function (sprite, context, time, planeObj) {
+          let planeLeft = planeObj.left
+          let planeTop = planeObj.top
+          if (lastEnemyFlyTime !== 0) {
+          // 更新飞机的位置 top坐标
+            // console.log(sprite.top)
+            // sprite.top = sprite.top + sprite.moveY / 1000 * (time - lastEnemyFlyTime)
+            if (planeTop > sprite.top) {
+              if ((planeTop - sprite.top) < 440 && (planeTop - sprite.top) > sprite.height) {
+                sprite.flat = false
+                sprite.__top = Math.abs(planeTop - sprite.top) / sprite.moveX
+                if (planeLeft > sprite.left && sprite.gluy) {
+                  sprite.__left = (planeLeft - sprite.left) / sprite.moveX
+                } else {
+                  sprite.__left = -(sprite.left - planeLeft) / sprite.moveX
+                  sprite.gluy = false
+                }
+              }
+            }
+            if (sprite.flat) {
+              sprite.top = sprite.top + sprite.moveY / 1000 * (time - lastEnemyFlyTime)
+              sprite.left = sprite.left
+            } else {
+              sprite.top = sprite.top + sprite.__top
+              sprite.left = sprite.left + sprite.__left
+            }
+            // 判断当前飞机的位置是否飞出屏幕，如果已经离开屏幕  隐藏
+            // sprite.top>context.canvas.height&&sprite.left>context.canvas.width-10&&sprite.left<10
+            if (sprite.top > context.canvas.height || sprite.left < 0 || sprite.left > context.canvas.width) {
+              sprite.visible = false
+            }
+          }
+          // 记录每次动画的最后一次时间
+          lastEnemyFlyTime = time
+        }
+      }
+    },
+    EnemyBomb () {
+      this.lastEnemyBombTime = 0
+      this.cycle = 100
+      this.prototype = {
+        execute: function (sprite, context, time) {
+          // 轮播每一个图片
+          if (time - this.lastEnemyBombTime > this.cycle && sprite.hp === 0) {
+            // 更新当前绘图使用的图片
+            // sprite.painter.advance();
+            // 判断 如果当前飞机死亡hp=0 且爆炸效果播放完毕 删除该飞机
+            if (sprite.painter.cellIndex === sprite.painter.cells.length - 1) {
+              sprite.visible = false
+            }
+            // 重新记录最后一次执行时间
+            this.lastEnemyBombTime = time
           }
         }
       }
     },
+    createEnemy (name, op) {
+      let smallCells = [
+        {x: 0, y: 1469, w: 84, h: 166},
+        {x: 84, y: 1469, w: 84, h: 166} ]
+      let suduX = 120
+      let suduXX = 20
+      if (this.score <= 5) {
+        suduX = suduX + Math.floor(Math.random() * 50) + 50
+        suduXX = 20
+      } else if (this.score > 5 && this.score <= 10) {
+        suduX = suduX + Math.floor(Math.random() * 50) + 100
+        suduXX = 18
+      } else if (this.score > 10 && this.score <= 15) {
+        suduX = suduX + Math.floor(Math.random() * 50) + 150
+        suduXX = 16
+      } else if (this.score > 15 && this.score <= 20) {
+        suduX = suduX + Math.floor(Math.random() * 50) + 200
+        suduXX = 14
+      } else if (this.score > 20 && this.score <= 25) {
+        suduX = suduX + Math.floor(Math.random() * 50) + 250
+        suduXX = 10
+      } else {
+        suduX = suduX + Math.floor(Math.random() * 50) + 300
+        suduXX = 8
+      }
+      let smallOption = {w: 110, hh: 219, moveY: suduX, hp: 1, score: 1, moveX: suduXX}
+      let cells = smallCells
+      // 实例化精灵对象
+      let Enemy = new this.Sprite(name, new this.SpritePainter('http://haierclub.huandengpai.com/static/haier/haier-world-cup/game/images/gameArts.png', cells), [new this.EnemyFly(), new this.EnemyBomb()])
+      setInterval(function () {
+        Enemy.painter.prototype.advance()
+      }, this.generateMixed(1, 190, 210))
+      // 属性初始化
+      Enemy.top = -smallOption.hh - (this.generateMixed(1, 5, 50))
+      Enemy.height = smallOption.hh
+      Enemy.width = smallOption.w
+      Enemy.left = this.EnemyLeft(op)
+      Enemy.moveY = smallOption.moveY
+      Enemy.moveX = smallOption.moveX
+      Enemy.hp = smallOption.hp
+      Enemy.score = smallOption.score
+      return Enemy
+    },
+    EnemyLeft (ind) {
+      let newNumber = this.randomLeft[ind]
+      return newNumber
+    },
+    animate (time) {
+      if (this.pause === 0) {
+      // 添加飞机操作
+      // 小飞机添加
+        let smallObj = this.random(3, 10)
+        if (time - this.smallEnemyTime > 3000) {
+        // 一次性添加三个小飞机
+          for (var i = 0; i < 3; i++) {
+            this.sprites.push(this.createEnemy('smallEnemy', smallObj[i]))
+          }
+          // 更新最后一次记录时间
+          this.smallEnemyTime = time
+        }
+        // 更新当前背景的位置
+        this.bgSprite.prototype.update(this.context, time)
+      }
+      this.bgSprite.prototype.paint(this.context)
+      if (this.pause === 0) {
+        // 循环遍历所有精灵对象 更新行为
+        for (let i = 0; i < this.sprites.length; i++) {
+          this.sprites[i].prototype.update(this.context, time, this.sprites[0])
+          // 判断是否有不可见的精灵对象-
+          if (this.sprites[i].visible === false) {
+            // 在飞机对象删除之前把分数累加起来
+            if (this.sprites[i].name !== 'plane') { // 判断是否是飞机
+              this.score = this.score + this.sprites[i].score
+            }
+            // 删除不可见的对象
+            this.sprites.splice(i, 1)
+          }
+        }
+      } else if (this.pause === 1) {
+        for (let i = 0; i < this.sprites.length; i++) {
+          this.sprites[i].prototype.update(this.context, time, this.sprites[0])
+        }
+      }
+      for (let i = 0; i < this.sprites.length; i++) {
+        if (this.pause === 0) {
+          // 判断是否是本方飞机
+          if (this.sprites[i].name === 'plane') {
+            for (var j = 0; j < this.sprites.length; j++) {
+              if (this.sprites[j].name !== 'plane') {
+                if (((this.sprites[j].left > this.sprites[i].left && this.sprites[j].left < this.sprites[i].left + this.sprites[i].width - 30) ||
+                      (this.sprites[j].left < this.sprites[i].left && this.sprites[j].left + this.sprites[j].width - 30 > this.sprites[i].left)) &&
+                    (this.sprites[j].top < this.sprites[i].top && (this.sprites[j].top + this.sprites[j].height - 20 > this.sprites[i].top))) {
+                  clearInterval(this.timer)
+                  cancelNextRequestAnimationFrame(this.id)
+                  this.isCanStart = false
+                  if (this.times === 30 || this.times > 30) {
+                    this.isSuccess = true
+                  } else {
+                    this.isFail = true
+                    /* 获取游戏次数 */
+                    this.getGameTimes()
+                  }
+                  this.setWxShare()
+                  // 只有飞机气血>=1的情况下才减血
+                  if (this.sprites[i].hp >= 1) {
+                    // 讲当前飞机的气血-1
+                    this.sprites[i].hp -= 1
+                  }
+                } else if (this.sprites[j].top > (this.sprites[i].top + this.sprites[i].height)) {
+                  // sprites[j].visible=false;
+                }
+              }
+            }
+          }
+          this.sprites[i].prototype.paint(this.context)
+        } else if (this.pause === 1) {
+          if (this.sprites[i].name === 'plane') {
+            this.sprites[i].prototype.paint(this.context)
+          }
+        }
+      }
+      if (this.isCanStart) {
+        this.id = requestNextAnimationFrame(this.animate)
+      }
+    },
     retuceGameTimes () {
       this.isShowLock = false
-      /* 倒计时 */
-      this.countDown()
-      // 减少游戏次数
-      setUserLotteryCountDecrOne().then(res => {
-        // console.log(res)
-      })
+      if (this.gameTimes > 0) {
+        /* 倒计时 */
+        this.countDown()
+        // 减少游戏次数
+        setUserLotteryCountDecrOne().then(res => {
+          // console.log(res)
+        })
+        requestNextAnimationFrame(this.animate)
+        setTimeout(function () {
+          cancelNextRequestAnimationFrame(this.id)
+        }, 2000)
+      } else {
+        this.isNoPoop = true
+      }
     },
     countDown () {
       /* 倒计时 */
@@ -256,12 +451,47 @@ export default {
         that.times++
       }, 1000)
     },
+    generateMixed (n, m, k) {
+      let arr = []
+      for (var i = 0; i < n; i++) {
+        let id = this.numRandom(k, m)
+        arr.push(id)
+      }
+      return arr
+    },
+    getGameTimes () {
+      getGameFrequency().then(res => {
+        if (res.status === 200) {
+          if (res.data.status === 200) {
+            if (res.data.data) {
+              this.gameTimes = res.data.data
+            } else {
+              this.gameTimes = 0
+            }
+          } else if (res.data.status === 400) {
+            alert('参数错误')
+          }
+        } else {
+          alert('网络错误')
+        }
+      })
+    },
+    numRandom (min, max) {
+      return min + Math.floor(Math.random() * (max - min + 1))
+    },
     setWxShare () {
       let shareData = {}
       AppWeixinShareUtil.setupWeixinShareOnly(shareData)
+    },
+    again () {
+      window.location.reload()
+    },
+    goLottery () {
+      this.$emit('goLot')
     }
   },
   created () {
+    this.getGameTimes()
   },
   mounted () {
     this.canvas = document.getElementById('canvas')
@@ -283,12 +513,12 @@ export default {
     this.canvas.addEventListener('touchend', function (e) {
       this.touchstart = false
     }, true)
-    let bgSprite = new this.BgSprite({w: 750, h: 1442, My: 30, url: 'http://haierclub.huandengpai.com/static/haier/haier-world-cup/game/images/gameArts.png'})
-    // bgSprite.prototype.paint(this.context)
+    this.bgSprite = new this.BgSprite({w: 750, h: 1442, My: 30, url: 'http://haierclub.huandengpai.com/static/haier/haier-world-cup/game/images/gameArts.png'})
+    this.bgSprite.prototype.paint(this.context)
     this.sprites[0].prototype.paint(this.context)
   }
 }
 </script>
 <style>
-   @import url(../../assets/css/game.css);
+  @import url(../../assets/css/game.css);
 </style>

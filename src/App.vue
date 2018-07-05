@@ -2,13 +2,13 @@
   <div id="app">
     <Loading v-if='Load'></Loading>
     <div id="switch" class='open'></div>
-    <!-- <Home v-if='isShowHome&&openid' @goAame="goAame"></Home> -->
+    <Home v-if='isShowHome&&openid' @goAame="goGame"></Home>
     <transition name="fade">
-      <Game v-if='isShowGame&&openid'></Game>
+      <Game v-if='isShowGame&&openid' @goLot="goLot"></Game>
     </transition>
-    <!-- <Lottery></Lottery> -->
+    <Lottery v-if='isShowLottery'></Lottery>
     <!-- <Form></Form> -->
-    <!-- <Introduces></Introduces> -->
+    <Introduces v-if='isShowIntro'></Introduces>
     <Wxshare></Wxshare>
     <div id='tips' v-if='isTips'></div>
     <div class="pop-active-end lockTouchmove" v-if='activeEned'>
@@ -35,10 +35,12 @@ export default {
     return {
       Load: true,
       isShowHome: true,
-      isShowGame: true,
+      isShowGame: false,
+      isShowLottery: false,
       isTips: false,
       openid: false,
-      activeEned: false
+      activeEned: false,
+      isShowIntro: false
     }
   },
   components: {
@@ -60,7 +62,6 @@ export default {
           if (res.data.status === 200) {
             let endtime = res.data.data.endtime
             let dateDay = Date.parse(new Date()) / 1000
-            console.log(endtime + '----' + dateDay)
             if (dateDay > endtime) {
               this.activeEned = true
             }
@@ -74,9 +75,13 @@ export default {
     }
   },
   methods: {
-    goAame () {
+    goGame () {
       this.isShowGame = true
       this.isShowHome = false
+    },
+    goLot () {
+      this.isShowGame = false
+      this.isShowLottery = true
     }
   }
 }

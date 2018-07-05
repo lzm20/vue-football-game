@@ -5,6 +5,7 @@
 </template>
 <script>
 import AppWeixinShareUtil from './share'
+import {setUserLotteryCountIncrOne} from '../base/base'
 export default {
   name: 'wx-share',
   data () {
@@ -28,10 +29,20 @@ export default {
       config.jsApiList = ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo']
       config.debug = false
       let shareP = param
-      AppWeixinShareUtil.setupWeixinShare(config, shareP)
+      AppWeixinShareUtil.setupWeixinShare(config, shareP, this.setGameTimes)
     },
     setWxShare (sharedata) {
       AppWeixinShareUtil.setupWeixinShareOnly(sharedata)
+    },
+    setGameTimes () {
+      setUserLotteryCountIncrOne().then(function (params) {
+        console.log(params)
+        if (params.status === 200) {
+          if (params.data.status === 200) {
+            console.log('分享之后游戏次数剩余' + params.data.data)
+          }
+        }
+      })
     }
   },
   mounted () {

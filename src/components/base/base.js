@@ -80,3 +80,26 @@ export const setUserLotteryCountDecrOne = function () {
   }
   return _post(data)
 }
+/* 获取页面secretkey */
+export const getLotterySecretStr = function () {
+  let data = {
+    url: getLotterySecretStrUrl,
+    data: {
+      'lotteryid': 'haierfootballcup2018',
+      'userid': localStorageOpenid
+    }
+  }
+  return _post(data)
+}
+/* 抽奖 */
+export const getPrize = function (secretkey) {
+  let data = {
+    url: getPrizeUrl,
+    data: {
+      'lotteryid': 'haierfootballcup2018',
+      'userid': localStorageOpenid,
+      'secretkey': secretkey
+    }
+  }
+  return _post(data)
+}

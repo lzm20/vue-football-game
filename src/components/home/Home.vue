@@ -6,9 +6,10 @@
 </template>
 <script>
 import {localStorageOpenid, getGameFrequency} from '../base/base'
+import {sessionStorageKey, sessionStorageFormKey} from '../base/key'
 export default {
   name: 'home',
-  props: ['goAame'],
+  props: ['goGame'],
   data () {
     return {
       gameTimes: '0'
@@ -16,13 +17,12 @@ export default {
   },
   methods: {
     startGame () {
-      this.$emit('goAame')
+      this.$emit('goGame')
     }
   },
   created () {
     // 获取游戏次数
     getGameFrequency().then(res => {
-      console.log(res)
       if (res.status === 200) {
         if (res.data.status === 200) {
           if (res.data.data) {
@@ -37,6 +37,8 @@ export default {
         alert('网络错误')
       }
     })
+    sessionStorage.removeItem(sessionStorageKey)
+    sessionStorage.removeItem(sessionStorageFormKey)
   }
 }
 </script>
